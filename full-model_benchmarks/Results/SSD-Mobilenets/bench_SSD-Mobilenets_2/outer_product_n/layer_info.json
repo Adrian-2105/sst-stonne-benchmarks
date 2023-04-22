@@ -1,0 +1,8 @@
+{
+    "name": "bench_SSD-Mobilenets_2",
+    "M": 128,
+    "N": 5625,
+    "K": 128,
+    "A_bytes": 16444,
+    "B_bytes": 1735712
+}

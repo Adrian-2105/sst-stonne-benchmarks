@@ -1,0 +1,8 @@
+{
+    "name": "bench_DistilBert_29",
+    "M": 768,
+    "N": 80,
+    "K": 3072,
+    "A_bytes": 4718592,
+    "B_bytes": 982020
+}

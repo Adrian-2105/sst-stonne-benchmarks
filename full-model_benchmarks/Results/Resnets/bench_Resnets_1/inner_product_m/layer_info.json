@@ -1,0 +1,8 @@
+{
+    "name": "bench_Resnets_1",
+    "M": 64,
+    "N": 3136,
+    "K": 64,
+    "A_bytes": 1984,
+    "B_bytes": 726588
+}

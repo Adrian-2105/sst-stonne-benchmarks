@@ -1,0 +1,4 @@
+cluster_outputs*
+
+# Special cases
+Models/Alexnet/bench_Alexnet_0/**/*.ini

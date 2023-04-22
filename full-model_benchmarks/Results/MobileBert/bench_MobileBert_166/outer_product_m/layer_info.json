@@ -1,0 +1,8 @@
+{
+    "name": "bench_MobileBert_166",
+    "M": 128,
+    "N": 8,
+    "K": 512,
+    "A_bytes": 131072,
+    "B_bytes": 16384
+}

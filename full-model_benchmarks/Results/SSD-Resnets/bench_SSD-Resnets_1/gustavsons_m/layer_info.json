@@ -1,0 +1,8 @@
+{
+    "name": "bench_SSD-Resnets_1",
+    "M": 64,
+    "N": 5329,
+    "K": 576,
+    "A_bytes": 16500,
+    "B_bytes": 7718968
+}

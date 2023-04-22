@@ -1,0 +1,8 @@
+{
+    "name": "bench_Squeezenet_19",
+    "M": 64,
+    "N": 729,
+    "K": 384,
+    "A_bytes": 29504,
+    "B_bytes": 459508
+}
