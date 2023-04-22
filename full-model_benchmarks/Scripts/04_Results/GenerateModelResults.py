@@ -100,12 +100,18 @@ class LayerResults:
             self.B_sparsity = 1 - self.B_nnz / (self.N * self.K)
 
         # get the results of each dataflow
+        self.best_cycles = float('inf')
+        self.best_dataflow = None
         for dataflow in ['inner_product_m', 'inner_product_n', 'outer_product_m', 'outer_product_n', 'gustavsons_m', 'gustavsons_n']:
             try:
                 # extract the results from the dataflow
                 dataflow_results = DataflowResult(layer_dir, dataflow)
                 # create a dynamic field with the results of the dataflow
                 setattr(self, dataflow, dataflow_results)
+
+                if dataflow_results.cycles < self.best_cycles:
+                    self.best_cycles = dataflow_results.cycles
+                    self.best_dataflow = dataflow
             except:
                 setattr(self, dataflow, None)
             
@@ -295,6 +301,7 @@ if __name__ == '__main__':
             'gustavsons_m',
             'gustavsons_n',
             'min_cycles',
+            'best_dataflow',
 
             # EC
             'EC_cost_per_elem',
@@ -403,9 +410,8 @@ if __name__ == '__main__':
                 str(layers[i].outer_product_n.cycles),
                 str(layers[i].gustavsons_m.cycles),
                 str(layers[i].gustavsons_n.cycles),
-                str(min(layers[i].inner_product_m.cycles, layers[i].inner_product_n.cycles, 
-                        layers[i].outer_product_m.cycles, layers[i].outer_product_n.cycles, 
-                        layers[i].gustavsons_m.cycles, layers[i].gustavsons_n.cycles)),
+                str(layers[i].best_cycles),
+                str(layers[i].best_dataflow),
 
                 # EC
                 str(args.ec_cycles),
