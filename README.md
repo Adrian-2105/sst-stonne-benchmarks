@@ -41,13 +41,16 @@ you need to follow the next steps:
    again (modifying or not the parameters), skip this step. In case you want to generate your own
    environment to simulate your complete model, please take into account the following:
    - Create a folder with `{MODEL_NAME}` as name. Inside that folder, create a separete folder for
-     each layer with the name `bench_{MODEL_NAME}_{LAYER_NUM}`. You must follow this naming convention
-     or the scripts will not work properly.
-   - Create a `bench_{MODEL_NAME}_{LAYER_NUM}/layer_data` folder inside each layer folder. Inside that folder,
+     each layer with the name `{MODEL_NAME}_{LAYER_NUM}`. You must follow this naming convention
+     or the scripts may not work properly.
+   - Create a `{MODEL_NAME}_{LAYER_NUM}/layer_data` folder inside each layer folder. Inside that folder,
      include exactly the same files (preserving the same names) as the examples provided in this repository.
      All of them are mandatory to build the execution environment for the benchmarks.
-   - In our case, we used the scripts on `Scripts/01_ExtractLayerMatrices` to generate all the scenarios, but
-     they are no longer maintained, so consider only them as a reference.
+   - If you want just to generate a layer with random data, you can use the `Scripts/01_LayerGeneration/RandomLayerGeneration.py`
+     script. This script will generate a random layer with the specified dimensions and sparsity and will
+     generate a layer folder already prepared for the next steps.
+   - In our case, we used the script on `Scripts/01_LayerGeneration/ExtractLayerData.py` to generate all the scenarios
+     from a previous version we had, but is no longer maintained, so consider it only as a reference.
 
 2. Generate the benchmark environment of each layer. This will generate a different folder for each supported
    dataflow (`inner-product-m`, `inner-product-n`, `outer-product-m`, `outer-product-n`, `gustavsons-m`, `gustavsons-n`).

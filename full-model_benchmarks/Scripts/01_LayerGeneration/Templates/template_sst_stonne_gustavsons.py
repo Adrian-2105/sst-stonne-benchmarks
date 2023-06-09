@@ -8,28 +8,30 @@ statLevel = 16
 max_addr_gb = 16
 tile_clk_mhz = 1
 
-
 # Define the simulation components
 comp_stonne = sst.Component("stonne1", "sstStonne.MAERI")
 comp_stonne.addParams({
-    "hardware_configuration" : "STONNE_INNER_PRODUCT_FILE",
-    "kernelOperation" : "bitmapSpMSpM",
+    "hardware_configuration" : "STONNE_GUSTAVSONS_FILE",
+    "kernelOperation" : "gustavsonsGEMM",
     "GEMM_K" : GEMM_K_PARAMETER,
     "GEMM_N" : GEMM_N_PARAMETER,
     "GEMM_M" : GEMM_M_PARAMETER,
-    "bitmap_matrix_a_init" : "bitmapSpMSpM_file_bitmapA.in",
-    "bitmap_matrix_b_init" : "bitmapSpMSpM_file_bitmapB.in",
-    "mem_init" : "bitmapSpMSpM_gemm_mem.ini",
+    "mem_init" : "gustavsons_gemm_mem.ini",
+    "mem_matrix_c_file_name" : "result.out",
     "matrix_a_dram_address" : 0,
     "matrix_b_dram_address" : MATRIX_B_DRAM_ADDRESS_PARAMETER,
     "matrix_c_dram_address" : MATRIX_C_DRAM_ADDRESS_PARAMETER,
-    "mem_matrix_c_file_name" : "result.out"
+    "rowpointer_matrix_a_init" : "gustavsons_gemm_rowpointerA.in",
+    "colpointer_matrix_a_init" : "gustavsons_gemm_colpointerA.in",
+    "rowpointer_matrix_b_init" : "gustavsons_gemm_rowpointerB.in",
+    "colpointer_matrix_b_init" : "gustavsons_gemm_colpointerB.in",
+
 
 })
 
 df_l1cache = sst.Component("l1cache", "memHierarchy.Cache")
 df_l1cache.addParams({
-    "access_latency_cycles" : "100",
+    "access_latency_cycles" : "1",
     "cache_frequency" : str(tile_clk_mhz) + "GHz",
     "replacement_policy" : "lru",
     "coherence_protocol" : "MESI",
@@ -42,7 +44,7 @@ df_l1cache.addParams({
     "debug" : 1,
     "debug_level" : 100,
     "L1" : "1",
-    "cache_size" : "1GiB"
+    "cache_size" : "1024KiB"
 })
 
 df_memory = sst.Component("memory", "memHierarchy.MemController")
@@ -80,4 +82,5 @@ link_mem_bus_link.connect( (df_l1cache, "low_network_0", "5ps"), (df_memory, "di
 
 
 # Enable statistics outputs
+
 

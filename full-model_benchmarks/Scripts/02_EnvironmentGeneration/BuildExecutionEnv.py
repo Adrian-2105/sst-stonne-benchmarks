@@ -59,24 +59,24 @@ if __name__ == '__main__':
     # copy files from the folders
     try:
         # inner-product-m
-        for file in [FILES['A-row-major-bitmap'], FILES['B-row-major-bitmap'], FILES['IP_arch'], FILES['IP-m_sst']]:
+        for file in [FILES['A-row-major-bitmap'], FILES['B-row-major-bitmap'], FILES['IP_arch'], FILES['IP-m_sst'], FILES['layer_info']]:
             copy_file(file, IP_M_FOLDER)
         # inner-product-n
-        for file in [FILES['A-col-major-bitmap'], FILES['B-col-major-bitmap'], FILES['IP_arch'], FILES['IP-n_sst']]:
+        for file in [FILES['A-col-major-bitmap'], FILES['B-col-major-bitmap'], FILES['IP_arch'], FILES['IP-n_sst'], FILES['layer_info']]:
             copy_file(file, IP_N_FOLDER)
 
         # outer-product-m
-        for file in [FILES['A-csc-rowp'], FILES['A-csc-colp'], FILES['B-csr-rowp'], FILES['B-csr-colp'], FILES['OP_arch'], FILES['OP-m_sst']]:
+        for file in [FILES['A-csc-rowp'], FILES['A-csc-colp'], FILES['B-csr-rowp'], FILES['B-csr-colp'], FILES['OP_arch'], FILES['OP-m_sst'], FILES['layer_info']]:
             copy_file(file, OP_M_FOLDER)
         # outer-product-n
-        for file in [FILES['A-csc-rowp'], FILES['A-csc-colp'], FILES['B-csr-rowp'], FILES['B-csr-colp'], FILES['OP_arch'], FILES['OP-n_sst']]:
+        for file in [FILES['A-csc-rowp'], FILES['A-csc-colp'], FILES['B-csr-rowp'], FILES['B-csr-colp'], FILES['OP_arch'], FILES['OP-n_sst'], FILES['layer_info']]:
             copy_file(file, OP_N_FOLDER)
 
         # gustavsons-m
-        for file in [FILES['A-csr-rowp'], FILES['A-csr-colp'], FILES['B-csr-rowp'], FILES['B-csr-colp'], FILES['Gust_arch'], FILES['Gust-m_sst']]:
+        for file in [FILES['A-csr-rowp'], FILES['A-csr-colp'], FILES['B-csr-rowp'], FILES['B-csr-colp'], FILES['Gust_arch'], FILES['Gust-m_sst'], FILES['layer_info']]:
             copy_file(file, GUST_M_FOLDER)
         # gustavsons-n
-        for file in [FILES['A-csc-rowp'], FILES['A-csc-colp'], FILES['B-csc-rowp'], FILES['B-csc-colp'], FILES['Gust_arch'], FILES['Gust-n_sst']]:
+        for file in [FILES['A-csc-rowp'], FILES['A-csc-colp'], FILES['B-csc-rowp'], FILES['B-csc-colp'], FILES['Gust_arch'], FILES['Gust-n_sst'], FILES['layer_info']]:
             copy_file(file, GUST_N_FOLDER)
 
         # generate mem initialization files for each dataflow

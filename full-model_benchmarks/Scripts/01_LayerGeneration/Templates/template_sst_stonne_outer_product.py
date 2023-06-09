@@ -16,8 +16,6 @@ comp_stonne.addParams({
     "GEMM_K" : GEMM_K_PARAMETER,
     "GEMM_N" : GEMM_N_PARAMETER,
     "GEMM_M" : GEMM_M_PARAMETER,
-    "GEMM_T_K" :4,
-    "GEMM_T_N" : 1,
     "mem_init" : "outerproduct_gemm_mem.ini",
     "mem_matrix_c_file_name" : "result.out",
     "matrix_a_dram_address" : 0,
@@ -33,7 +31,7 @@ comp_stonne.addParams({
 
 df_l1cache = sst.Component("l1cache", "memHierarchy.Cache")
 df_l1cache.addParams({
-    "access_latency_cycles" : "100",
+    "access_latency_cycles" : "1",
     "cache_frequency" : str(tile_clk_mhz) + "GHz",
     "replacement_policy" : "lru",
     "coherence_protocol" : "MESI",
@@ -46,7 +44,7 @@ df_l1cache.addParams({
     "debug" : 1,
     "debug_level" : 100,
     "L1" : "1",
-    "cache_size" : "1GiB"
+    "cache_size" : "1024KiB"
 })
 
 df_memory = sst.Component("memory", "memHierarchy.MemController")
