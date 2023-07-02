@@ -48,10 +48,10 @@ class DataflowResult:
 
         # cache B hits
         # l1cache.latency_GetS_hit : Accumulator : SimTime = 33162522000; Rank = 0; Sum.u64 = 513104086; SumSQ.u64 = 16246995092; Count.u64 = 55699418; Min.u64 = 2; Max.u64 = 119;
-        self.cache_B_hits = int(subprocess.check_output(f"cat {sst_stats_file} | grep latency_GetS_hit | tr ';' '\n' | grep Sum.u64 | tr -d ' ' | cut -d '=' -f2", shell=True))
+        self.cache_B_hits = int(subprocess.check_output(f"cat {sst_stats_file} | grep latency_GetS_hit | tr ';' '\n' | grep Count.u64 | tr -d ' ' | cut -d '=' -f2", shell=True))
         # cache B misses
         # l1cache.latency_GetS_miss : Accumulator : SimTime = 33162522000; Rank = 0; Sum.u64 = 20527632; SumSQ.u64 = 1774366648; Count.u64 = 237507; Min.u64 = 86; Max.u64 = 112; 
-        self.cache_B_misses = int(subprocess.check_output(f"cat {sst_stats_file} | grep latency_GetS_miss | tr ';' '\n' | grep Sum.u64 | tr -d ' ' | cut -d '=' -f2", shell=True))
+        self.cache_B_misses = int(subprocess.check_output(f"cat {sst_stats_file} | grep latency_GetS_miss | tr ';' '\n' | grep Count.u64 | tr -d ' ' | cut -d '=' -f2", shell=True))
         # cache B total accesses (hits + misses)
         self.cache_B_total_accesses = self.cache_B_hits + self.cache_B_misses
         # cache B hit rate (hits / total accesses)
