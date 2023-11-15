@@ -136,8 +136,6 @@ if __name__ == '__main__':
         # get output files
         FILES = LayerDataFilenames.get_layer_data_filenames(os.path.join(args.results_dir, op))
 
-        # load layer info
-        layer_info = json.load(open(FILES['layer_info'], 'r'))
 
         # check if the result have been obtained
         RESULT_FILE = FILES['mem_result']
@@ -145,6 +143,9 @@ if __name__ == '__main__':
             print(f"[ERROR] Result file {RESULT_FILE} does not exist. Result not calculated. Skipping {op}...")
             continue
 
+        # load layer info
+        layer_info = json.load(open(FILES['layer_info'], 'r'))
+        
         # read the result and transform it into a numpy matrix
         RESULT_MEM = sstlib.csv_read_file(RESULT_FILE, unpack_data=False, use_int=False)
         if op.endswith('_m'):
