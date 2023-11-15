@@ -12,7 +12,7 @@ tile_clk_mhz = 1
 # Define the simulation components
 comp_stonne = sst.Component("stonne1", "sstStonne.MAERI")
 comp_stonne.addParams({
-    "hardware_configuration" : "STONNE_INNER_PRODUCT_FILE",
+    "hardware_configuration" : STONNE_INNER_PRODUCT_FILE,
     "kernelOperation" : "bitmapSpMSpM",
     "GEMM_K" : GEMM_K_PARAMETER,
     "GEMM_N" : GEMM_N_PARAMETER,

@@ -25,6 +25,7 @@ def results_equal_np(M, N, delta=DELTA):
     Compares two numpy matrices considering a delta
     """
     if M.shape != N.shape:
+        print(f'M.shape = {M.shape} != {N.shape} = N.shape', end=' ')
         return False
 
     for i in range(M.shape[0]):
@@ -37,6 +38,7 @@ def results_equal_np(M, N, delta=DELTA):
 
 def results_equal(M, N, delta=DELTA):
     if len(M) != len(N):
+        print(f'len(M) = {len(M)} != {len(N)} = len(N)', end=' ')
         return False
 
     for i in range(len(M)):
@@ -132,7 +134,10 @@ if __name__ == '__main__':
             continue
 
         # get output files
-        FILES = LayerDataFilenames.get_layer_data_filenames(os.path.join(args.layer_dir, op))
+        FILES = LayerDataFilenames.get_layer_data_filenames(os.path.join(args.results_dir, op))
+
+        # load layer info
+        layer_info = json.load(open(FILES['layer_info'], 'r'))
 
         # check if the result have been obtained
         RESULT_FILE = FILES['mem_result']
@@ -140,12 +145,17 @@ if __name__ == '__main__':
             print(f"[ERROR] Result file {RESULT_FILE} does not exist. Result not calculated. Skipping {op}...")
             continue
 
-        # read the result
+        # read the result and transform it into a numpy matrix
         RESULT_MEM = sstlib.csv_read_file(RESULT_FILE, unpack_data=False, use_int=False)
+        if op.endswith('_m'):
+            RESULT = sstlib.matrix_load_from_mem(RESULT_MEM, layer_info['M'], layer_info['N'])
+        else:
+            RESULT = sstlib.matrix_load_from_mem(RESULT_MEM, layer_info['N'], layer_info['M'])
+
         # compare the result with the correct one
         print(f"[INFO] Checking result of {op}... ", end='')
         # if op.endswith('_m') then is row-major format result, col-major otherwise
-        if not results_equal(CORRECT_RESULT_MEM if op.endswith('_m') else CORRECT_RESULT_T_MEM, RESULT_MEM, args.delta):
+        if not results_equal_np(CORRECT_RESULT if op.endswith('_m') else CORRECT_RESULT.T, RESULT, args.delta):
             print(f"[FAILED]")
             continue
 

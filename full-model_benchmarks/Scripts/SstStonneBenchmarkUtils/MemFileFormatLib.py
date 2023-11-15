@@ -1,5 +1,6 @@
 import numpy as np
 import struct
+import os
 
 """
 Small library with basic functions to work with the mem file format.
@@ -53,6 +54,7 @@ def csv_write_file(file, data, pack_data=True, use_int=False):
     It is used to write the rowpointer, colpointer and data (mem) files.
     It appends a trailing comma to the file.
     """
+    os.makedirs(os.path.dirname(file), exist_ok=True)
     with open(file, "w") as f:
         if pack_data:
             data = [pack_value(x) for x in data]
@@ -81,6 +83,17 @@ def merge_mem(mem_A, mem_B):
     """
     return mem_A + mem_B
 
+def matrix_load_from_mem(mem, rows, cols):
+    """
+    Loads a matrix from the mem file.
+    Reads a row-major matrix and returns a numpy matrix.
+    """
+    assert len(mem) == rows * cols, f"mem length ({len(mem)}) does not match the specified size ({rows * cols})"
+    matrix = np.zeros((rows, cols))
+    for i in range(rows):
+        for j in range(cols):
+            matrix[i, j] = mem[i * cols + j]
+    return matrix
 
 def matrix_sparse2dense(rowpointer, colpointer, data, rows, cols):
     """

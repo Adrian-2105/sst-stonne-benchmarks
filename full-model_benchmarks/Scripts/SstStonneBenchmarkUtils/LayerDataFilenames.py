@@ -115,6 +115,8 @@ def get_old_filenames(basedir=""):
         # Gustavsons M Files
         "Gust-m_A-rowp" : os.path.join('gustavsons_m', 'gustavsons_gemm_rowpointerA.in'),
         "Gust-m_A-colp" : os.path.join('gustavsons_m', 'gustavsons_gemm_colpointerA.in'),
+        "Gust-m_B-rowp" : os.path.join('gustavsons_m', 'gustavsons_gemm_rowpointerB.in'),
+        "Gust-m_B-colp" : os.path.join('gustavsons_m', 'gustavsons_gemm_colpointerB.in'),
         "Gust-m_mem" :    os.path.join('gustavsons_m', 'gustavsons_gemm_mem.ini'),
         "Gust-m_sst" :    os.path.join('gustavsons_m', 'temporal_sst_stonne_gustavsons.py'),
         "Gust-m_arch" :   os.path.join('gustavsons_m', 'sparseflex_gustavsons_64mses_64_bw.cfg'),
