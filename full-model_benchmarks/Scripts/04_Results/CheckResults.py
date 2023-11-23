@@ -2,6 +2,7 @@ import os, sys
 import argparse
 import json
 import numpy as np
+import glob
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from SstStonneBenchmarkUtils import MemFileFormatLib as sstlib
@@ -129,25 +130,21 @@ if __name__ == '__main__':
     for op in ['inner_product_m', 'outer_product_m', 'gustavsons_m', 'inner_product_n', 'outer_product_n', 'gustavsons_n']:
         # check if dir exists
         OP_DIR = os.path.join(args.results_dir, op)
-        if not os.path.isdir(OP_DIR):
-            print(f"[ERROR] Directory {OP_DIR} does not exist, skipping {op}...")
+
+        # check if the result have been obtained
+        if len(glob.glob(os.path.join(OP_DIR, 'output*'))) == 0:
+            print(f"[ERROR] Directory {OP_DIR} does not exists or does not contains any output file, skipping {op}...")
             continue
 
         # get output files
         FILES = LayerDataFilenames.get_layer_data_filenames(os.path.join(args.results_dir, op))
 
 
-        # check if the result have been obtained
-        RESULT_FILE = FILES['mem_result']
-        if not os.path.isfile(RESULT_FILE):
-            print(f"[ERROR] Result file {RESULT_FILE} does not exist. Result not calculated. Skipping {op}...")
-            continue
-
         # load layer info
         layer_info = json.load(open(FILES['layer_info'], 'r'))
         
         # read the result and transform it into a numpy matrix
-        RESULT_MEM = sstlib.csv_read_file(RESULT_FILE, unpack_data=False, use_int=False)
+        RESULT_MEM = sstlib.csv_read_file(FILES['mem_result'], unpack_data=False, use_int=False)
         if op.endswith('_m'):
             RESULT = sstlib.matrix_load_from_mem(RESULT_MEM, layer_info['M'], layer_info['N'])
         else:
