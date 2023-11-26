@@ -65,17 +65,29 @@ if __name__ == '__main__':
         # execute the simulation, checking if it produces any output error
         os.chdir(INPUT_DIR)
         SST_SIM_FILE = FILENAMES[target + '_sst']
-        subprocess.run(f"sst {SST_SIM_FILE}", shell=True, check=True)
+        result = subprocess.run(f"sst {SST_SIM_FILE}", shell=True, check=True)
 
-        # move the output files to the output directory
-        for filename in glob.glob('output*') + [FILENAMES['mem_result']]:
-            shutil.move(filename, os.path.join(TARGET_OUTPUT_DIR, filename))
-        # copy the sst-sim file and the layer_info to the output directory
-        try:
-            shutil.copy(SST_SIM_FILE, os.path.join(TARGET_OUTPUT_DIR, SST_SIM_FILE))
-            shutil.copy(FILENAMES['layer_info'], os.path.join(TARGET_OUTPUT_DIR, FILENAMES['layer_info']))
-        except shutil.SameFileError:
-            pass
+        # if the simulation has been executed correctly...
+        if result.returncode == 0:
+            # clean old results that may produce some name aliasing
+            for filename in glob.glob(os.path.join(TARGET_OUTPUT_DIR, 'output*')):
+                try:
+                    os.remove(filename)
+                except FileNotFoundError:
+                    pass
+
+            # move the output files to the output directory
+            for filename in glob.glob('output*') + [FILENAMES['mem_result']]:
+                shutil.move(filename, os.path.join(TARGET_OUTPUT_DIR, filename))
+            # copy the sst-sim file and the layer_info to the output directory
+            try:
+                shutil.copy(SST_SIM_FILE, os.path.join(TARGET_OUTPUT_DIR, SST_SIM_FILE))
+                shutil.copy(FILENAMES['layer_info'], os.path.join(TARGET_OUTPUT_DIR, FILENAMES['layer_info']))
+            except shutil.SameFileError:
+                pass
+        else:
+            print(f'[ERROR] Target {target} failed. Skipping...')
+            continue
 
         os.chdir(WORKDIR)
         print('[OK]')

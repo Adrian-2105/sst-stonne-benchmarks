@@ -138,7 +138,7 @@ class LayerMapping:
         return f"Layer {self.layer_num} - {self.dataflow_name} - {self.accum_cycles} cycles"
 
 
-def find_best_mapping_path(layers : List[LayerResults], ec_cycles_elem : int) -> List[LayerMapping]:
+def find_best_mapping_path(layers : List[LayerResults], ec_cycles_elem : int, input_matrix = 'A') -> List[LayerMapping]:
     """
     Computes the best mapping path considering the explicit conversion costs
 
@@ -159,7 +159,7 @@ def find_best_mapping_path(layers : List[LayerResults], ec_cycles_elem : int) ->
                             layer.gustavsons_n.cycles])
         
     # compute the explicit conversion costs of each layer
-    EC_CYCLES = [layer.A_nnz * ec_cycles_elem for layer in layers]
+    EC_CYCLES = [(layer.A_nnz if input_matrix == 'A' else layer.B_nnz) * ec_cycles_elem for layer in layers]
 
     """
     Transformations table (requires A matrix, returns C matrix):
@@ -230,6 +230,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Obtain the results of a DNN model')
     parser.add_argument('results_model_dir', type=str, help='Directory containing the results of the model')
     parser.add_argument('-c', '--ec_cycles', type=int, default=20, help='Number of cycles of the Explicit Conversions per NNZ element (default: 20)')
+    parser.add_argument('-i', '--input_matrix', type=str, choices=['A', 'B'], default='A', help='Input matrix to use for the explicit conversions (default: A)')
     parser.add_argument('-o', '--output_filename', type=str, default=OUTPUT_FILENAME, help=f'Output filename (default: {OUTPUT_FILENAME})')
     args = parser.parse_args()
 
@@ -250,9 +251,9 @@ if __name__ == '__main__':
     
 
     # build best-mapping-path considering explicit conversions
-    mapping_with_EC = find_best_mapping_path(layers, args.ec_cycles)
+    mapping_with_EC = find_best_mapping_path(layers, args.ec_cycles, args.input_matrix)
     # build best-mapping-path without considering explicit conversions
-    mapping_without_EC = find_best_mapping_path(layers, float('inf'))
+    mapping_without_EC = find_best_mapping_path(layers, float('inf'), args.input_matrix)
 
 
     # print a table with the results of the mapping
